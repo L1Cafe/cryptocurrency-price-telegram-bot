@@ -4,7 +4,7 @@ import csv
 import os
 import requests
 import time
-import datetime
+from datetime import datetime
 from decimal import *
 import logging
 
@@ -22,13 +22,12 @@ dash = 'dash'
 cryptocurrencies = (btc,bch,ltc,eth,dash)
 fiatcurrencies   = (eur,usd)
 
+
 # private functions
 def __get_prices__():
     ret_val = None
     try:
-        response = requests.get(url="https://api.coinmarketcap.com/v1/ticker/?convert=EUR")
-        print(f'{time.asctime(time.localtime(time.time()))} // Response HTTP Status Code: {response.status_code}')
-        ret_val = response.json()
+        ret_val = requests.get(url="https://api.coinmarketcap.com/v1/ticker/?convert=EUR").json()
     except Exception as err:
         raise Exception(f'An exception occurred: {err}')
     return ret_val
@@ -45,15 +44,15 @@ def __parse_prices__(json,from_currency,to_currency):
         raise Exception(f'Error when parsing prices: {err}')
     return ret_val
 
+
 # public functions
 def fetch_prices(): # returns a dictionary with the first element being the
                     # currency and the second element being the currency to
                     # convert to
 
-
     try:
         prices = __get_prices__()
-        
+
         btc_eur = __parse_prices__(prices,btc,eur)
         btc_usd = __parse_prices__(prices,btc,usd)
         bch_eur = __parse_prices__(prices,bch,eur)
@@ -74,20 +73,25 @@ def fetch_prices(): # returns a dictionary with the first element being the
         print(f'Error when fetching data: {err}')
         return None
 
+
 def save_prices():
     try:
         prices = fetch_prices()
         with open('prices.csv', 'w') as pricescsv:
-            writer = csv.DictWriter(pricescsv, fieldnames = ['date', 'cryptocurrency', 'price_eur', 'price_usd'], delimiter = ';')
+            writer = csv.DictWriter(pricescsv, fieldnames = ['date', 'cryptocurrency', 'price_eur', 'price_usd'], delimiter = ',')
             writer.writeheader()
-            #writer.writerow([time.asctime(), prices[btc][eur], prices[btc][usd]])  # TODO FIX DATE FORMAT
-            #writer.writerow({'date': time.asctime(), 'cryptocurrency': btc, 'price_eur': prices[btc][eur], 'price_usd': prices[btc][usd]})
             for crypto in cryptocurrencies:
-                writer.writerow({'date': time.asctime(), 'cryptocurrency': crypto, 'price_eur': prices[crypto][fiatcurrencies[0]],
-                                     'price_usd': prices[crypto][fiatcurrencies[1]]})
+                writer.writerow({'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'cryptocurrency': crypto,
+                                 'price_eur': prices[crypto][fiatcurrencies[0]],
+                                 'price_usd': prices[crypto][fiatcurrencies[1]]})
             pricescsv.close()
     except Exception as err:
         print(f'Error when saving prices: {err}')
 
+
 #TODO: Call savePricesDB every hour, initially with cron
-save_prices()
+def main():
+    save_prices()
+
+
+main()
