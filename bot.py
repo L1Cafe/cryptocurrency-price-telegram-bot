@@ -5,6 +5,7 @@ import telegram
 import telegram.ext # TODO: fix
 import os
 import logging
+import csv
 
 telegram_updater = telegram.ext.Updater(token=os.environ["telegram_token"])
 telegram_dispatcher = telegram_updater.dispatcher
@@ -15,16 +16,22 @@ def start(bot, update):
 start_handler = telegram.ext.CommandHandler("start", start)
 telegram_dispatcher.add_handler(start_handler)
 
-def getPrices(bot,update):
+def get_prices(bot,update):
     # TODO: Fetch BTC price from FILE, assign it to btc_price
     # TODO: Fetch BCH price from FILE, assign it to bch_price
     # TODO: Fetch LTC price from FILE, assign it to ltc_price
     # TODO: Fetch ETH price from FILE, assign it to eth_price
     # TODO: Fetch DASH price from FILE, assign it to dash_price
+    with(open 'prices.csv', newline='') as prices:
+    reader = csv.reader(prices, delimiter=',')
+    for row in reader:
+        print(', '.join(row))
+    pass
+
 
     bot.send_message(chat_id=update.message.chat_id, text=btc_price+"\n"+
                      ltc_price+"\n"+eth_price+"\n"+bch_price+"\n"+dash_price)
-get_prices_handler = telegram.ext.CommandHandler("get_prices", getPrices)
+get_prices_handler = telegram.ext.CommandHandler("get_prices", get_prices)
 telegram_dispatcher.add_handler(get_prices_handler)
 
 telegram_updater.start_polling()
