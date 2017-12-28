@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-# TODO: Make sure Vim uses Python3 (probably homebrew) by default
-
 import telegram
-import telegram.ext # TODO: fix
+import telegram.ext
 import os
 import logging
 import csv
