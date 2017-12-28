@@ -102,4 +102,4 @@ ENV/
 prices.csv
 
 #bot settings
-launch.bash
+launch_bot.bash
