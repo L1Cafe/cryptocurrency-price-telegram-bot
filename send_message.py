@@ -4,10 +4,10 @@ from telegram import Bot as telegramBot
 import os
 import csv
 
-telegram_token =   os.environ["telegram_token"]
-telegram_admin =   os.environ["telegram_admin_id"]
-telegram_chat_id = os.environ["telegram_chat_id"]
-telegram_text = ''
+telegram_token      = os.environ["telegram_token"]
+telegram_admin      = os.environ["telegram_admin_id"]
+telegram_chat_id    = os.environ["telegram_chat_id"]
+telegram_text       = ''
 
 telegram_bot = telegramBot(token=telegram_token)
 
