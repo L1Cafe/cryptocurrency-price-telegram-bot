@@ -47,7 +47,7 @@ def _parse_prices_(json, from_currency, to_currency):
     finally:
         return ret_val
 
-
+#TODO: FIXME: There is an app-breaking bug where the prices appear to be the same.
 # public functions
 def fetch_prices():
     """Returns a dictionary with the first element being the currency and the second element being

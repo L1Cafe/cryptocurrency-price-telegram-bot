@@ -24,7 +24,7 @@ TELEGRAM_BOT = telegram_bot(token=TELEGRAM_TOKEN)
 with open('prices.csv', 'r') as prices:
     READER = csv.DictReader(prices)
     for line in READER:
-        MESSAGE += '1 #' + line["cryptocurrency"].upper() + ' = ' + line["price_eur"]+' EUR & '
+        MESSAGE += '1 #' + line["cryptocurrency"].upper() + ' = ' + line["price_eur"]+' #EUR & '
         MESSAGE += line["price_usd"] + ' USD \n'
         last_update=line["date"]
 MESSAGE += '--\n'
