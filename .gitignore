@@ -99,8 +99,13 @@ ENV/
 
 # mypy
 .mypy_cache/
-prices.csv
+
+#vscode files
+.vscode/
+
+#IntelliJ IDEA files
+.idea/
 
 #bot settings
 launch_bot.bash
-.vscode/
+prices.csv
